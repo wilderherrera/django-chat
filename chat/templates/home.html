@@ -19,7 +19,7 @@
                 <p class="font-bold font-sans">Choose the chat room</p>
                 <div class="flex flex-col">
                     {% for room in rooms %}
-                        <p>{{ room.name }}</p>
+                        <a href="{% url 'chat_room' room.name %}">{{ room.name }}</a>
                     {% endfor %}
                 </div>
             </div>

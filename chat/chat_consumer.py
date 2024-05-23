@@ -1,11 +1,12 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-import chat.models
-from chat.repository.chat.chat_repository_impl import ChatRepositoryImpl
+import time
+from chat.repository.chat.chat_repository_redis_impl import ChatRepositoryRedisImpl
 from chat.service.chat.chat_service import ChatService
 from chat.service.chat_room.chat_room_service import ChatRoomService
 from chat.models import ChatRoom
 from chat.repository.chat_room.chat_room_repository_impl import ChatRoomRepositoryImpl
+from datetime import datetime
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -32,17 +33,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        text_data_json["username"] = self.scope["user"]
+        text_data_json["email"] = self.scope["email"]
         message = text_data_json["message"]
-        chat_service = ChatService(ChatRepositoryImpl(chat.models.Chat))
-        await chat_service.create_message(text_data_json)
+        user = self.scope['user']
+        chat_service = ChatService(ChatRepositoryRedisImpl())
+        await chat_service.create_message(text_data_json, user.id, self.roomGroupName)
         await self.channel_layer.group_send(
             self.roomGroupName, {
                 "type": "sendMessage",
                 "message": message,
-                "username": "Wilder",
+                "user_id": user.id,
+                "email": user.email,
+                "username": user.username,
+                "created_at": text_data_json["created_at"]
             })
 
     async def sendMessage(self, event):
-        message = event["message"]
-        username = event["username"]
-        await self.send(text_data=json.dumps({"message": message, "username": username}))
+        await self.send(text_data=json.dumps(event))

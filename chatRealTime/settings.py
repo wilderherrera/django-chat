@@ -32,6 +32,8 @@ LOGOUT_REDIRECT_URL = "/v1/home"
 
 LOGIN_REDIRECT_URL = "/v1/home"
 
+LOGIN_URL = "/auth/v1/login"
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'tailwind_app/static/')
 COMPRESS_ROOT = os.path.join(BASE_DIR, 'tailwind_app/static/')
 

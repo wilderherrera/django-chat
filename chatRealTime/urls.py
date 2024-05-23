@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 import chat.chat_consumer
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path("", include("chat.url")),

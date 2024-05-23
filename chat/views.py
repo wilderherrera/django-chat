@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from chat.service.chat.chat_service import ChatService
-from chat.repository.chat.chat_repository_impl import ChatRepositoryImpl
+from chat.repository.chat.chat_repository_redis_impl import ChatRepositoryRedisImpl
 from chat.repository.chat_room.chat_room_repository_impl import ChatRoomRepositoryImpl
 from chat.models import ChatRoom
 from chat.service.chat_room.chat_room_service import ChatRoomService
@@ -17,9 +17,13 @@ def index(request):
 
 
 def room(request, room_name):
-    return render(request, "room.html", {"room_name": room_name})
+    chat_service = ChatService(ChatRepositoryRedisImpl())
+    context = {"messages": chat_service.get_all(request, room_name),
+               'username': request.user.username,
+               'email   ': request.user.email,
+               "room_name": room_name}
+    return render(request, "room.html", context)
 
 
 def get_all(request):
-    chat_service = ChatService(ChatRepositoryImpl(Chat))
-    return JsonResponse(chat_service.get_all(request), safe=False)
+    pass

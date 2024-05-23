@@ -2,10 +2,11 @@ from django.urls import path, re_path, include
 from chat import views, chat_consumer
 from authentication import url
 import django.contrib.auth.urls
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path("v1/home", views.index),
-    path("chat/<str:room_name>/", views.room, name="room"),
+    path("v1/home", login_required(views.index), name="home"),
+    path("chat/<str:room_name>/", login_required(views.room), name="chat_room"),
 
 ]
 websocket_urlpatterns = [
