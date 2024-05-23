@@ -27,6 +27,47 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGGING = {
+    "version": 1,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message} {asctime}",
+            "style": "{",
+        },
+    },
+    "filters": {"require_debug_true": {
+        "()": "django.utils.log.RequireDebugTrue",
+    },
+    },
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console_critical": {
+            "level": "CRITICAL",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "console_warning": {
+            "level": "WARNING",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        }, "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "debug.log",
+            "filters": ["require_debug_true"],
+            "formatter": "verbose",
+        }
+    },
+    "root": {
+        "handlers": ["console_warning", "file", "console_critical"],
+        "level": "WARNING",
+    },
+}
+
 # Application definition
 LOGOUT_REDIRECT_URL = "/v1/home"
 

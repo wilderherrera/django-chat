@@ -3,8 +3,13 @@ from chat.models import ChatRoom
 from channels.db import database_sync_to_async
 from django.contrib.auth.models import User
 
+from django.core.exceptions import ObjectDoesNotExist
+import logging
+
 
 class ChatRoomRepositoryImpl(chat_room_repository_i.ChatRoomRepositoryI):
+    logger = logging.getLogger(__name__)
+
     def __init__(self, chat_room_model: ChatRoom.__class__):
         self.chat_room_model = chat_room_model
 
@@ -20,9 +25,15 @@ class ChatRoomRepositoryImpl(chat_room_repository_i.ChatRoomRepositoryI):
 
     @database_sync_to_async
     def add_user(self, chat_room: ChatRoom, user: User) -> bool:
-        if chat_room.users.filter(id=user.id).count() != 0:
+        try:
+            chat_room.users.filter(id=user.id).get()
+        except ObjectDoesNotExist:
             return False
-        chat_room.users.add(user)
+        try:
+            chat_room.users.add(user)
+        except Exception as error:
+            self.logger.warning("Error creating a user in chat room..." + str(error))
+            return False
         return True
 
     def get_rooms(self):

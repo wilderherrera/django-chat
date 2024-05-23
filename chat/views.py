@@ -1,10 +1,8 @@
-from django.http import JsonResponse
 from chat.service.chat.chat_service import ChatService
 from chat.repository.chat.chat_repository_redis_impl import ChatRepositoryRedisImpl
 from chat.repository.chat_room.chat_room_repository_impl import ChatRoomRepositoryImpl
 from chat.models import ChatRoom
 from chat.service.chat_room.chat_room_service import ChatRoomService
-from chat.models import Chat
 from django.shortcuts import render
 from django.shortcuts import redirect
 
@@ -12,7 +10,6 @@ from django.shortcuts import redirect
 def index(request):
     rooms = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom)).get_rooms()
     context = {"user": request.user, "rooms": rooms}
-
     return render(request, "home.html", context)
 
 

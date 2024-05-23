@@ -1,7 +1,6 @@
-from django.urls import path, re_path, include
-from chat import views, chat_consumer
-from authentication import url
-import django.contrib.auth.urls
+from django.urls import path, re_path
+from chat import views
+from chat.channels import chat_consumer
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
