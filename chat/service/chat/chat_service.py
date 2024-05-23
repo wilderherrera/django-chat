@@ -1,5 +1,5 @@
 import chat.models
-from chat.repository.chat_repository_i import ChatRepositoryI
+from chat.repository.chat.chat_repository_i import ChatRepositoryI
 
 
 class ChatService:
@@ -8,3 +8,6 @@ class ChatService:
 
     def get_all(self, request) -> [chat.models.Chat]:
         return self.chat_repo.get_all(request)
+
+    async def create_message(self, message):
+        await self.chat_repo.create_message(message)

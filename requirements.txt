@@ -1,1 +1,8 @@
 psycopg2
+redis
+channels
+daphne
+channels_redis
+django-compressor
+django-tailwind
+django-tailwind[reload]

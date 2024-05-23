@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,23 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
+LOGOUT_REDIRECT_URL = "/v1/home"
+
+LOGIN_REDIRECT_URL = "/v1/home"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'tailwind_app/static/')
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'tailwind_app/static/')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'tailwind_app/static'),
+    os.path.join(BASE_DIR, 'django_browser_reload/static'),
+
+)
+
+COMPRESS_ENABLED = True
+
+STATICFILES_FINDERS = (
+    'compressor.finders.CompressorFinder',)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,10 +52,24 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'compressor',
     'chat',
+    "daphne",
+    'channels',
+    'django.contrib.staticfiles',
+    'authentication',
+    'tailwind',
+    'tailwind_app',
+    'django_browser_reload'
+
+]
+TAILWIND_APP_NAME = 'tailwind_app'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -46,6 +78,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+
 ]
 
 ROOT_URLCONF = 'chatRealTime.urls'
@@ -53,7 +87,7 @@ ROOT_URLCONF = 'chatRealTime.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'chatRealTime/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +101,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chatRealTime.wsgi.application'
+ASGI_APPLICATION = 'chatRealTime.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -100,6 +135,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="flex justify-center mt-5 rounded-md">
+        <div class="grid grid-cols-3 h-full bg-yellow-300">
+            <div class=" flex flex-col bg-indigo-100 p-10">
+                <div class="w-10 h-10 rounded-full bg-yellow-300"></div>
+                <div class="flex flex-col space-y-2 mt-8">
+                    <div>
+                        <p class="font-bold">Username</p>
+                        <p class="font-semibold">{{ user.username }}</p>
+                    </div>
+                    <div>
+                        <p class="font-bold mt-5">Email</p>
+                        <p class="font-semibold">{{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-2 p-10">
+                <p class="font-bold font-sans">Choose the chat room</p>
+                <div class="flex flex-col">
+                    {% for room in rooms %}
+                        <p>{{ room.name }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+
