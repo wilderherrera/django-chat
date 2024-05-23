@@ -10,3 +10,6 @@ class ChatRoomRepositoryI:
 
     def get_rooms(self):
         pass
+
+    def count_all(self) -> int:
+        pass

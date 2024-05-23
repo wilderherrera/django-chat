@@ -33,12 +33,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        text_data_json["username"] = self.scope["user"]
-        text_data_json["email"] = self.scope["email"]
-        message = text_data_json["message"]
         user = self.scope['user']
-        chat_service = ChatService(ChatRepositoryRedisImpl())
-        await chat_service.create_message(text_data_json, user.id, self.roomGroupName)
+        text_data_json["username"] = user.username
+        text_data_json["email"] = user.email
+        message = text_data_json["message"]
+        await ChatService(ChatRepositoryRedisImpl()).create_message(text_data_json, user.id, self.roomGroupName)
         await self.channel_layer.group_send(
             self.roomGroupName, {
                 "type": "sendMessage",

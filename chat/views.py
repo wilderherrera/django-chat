@@ -6,14 +6,20 @@ from chat.models import ChatRoom
 from chat.service.chat_room.chat_room_service import ChatRoomService
 from chat.models import Chat
 from django.shortcuts import render
+from django.shortcuts import redirect
 
 
 def index(request):
     rooms = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom)).get_rooms()
-    print(rooms)
     context = {"user": request.user, "rooms": rooms}
 
     return render(request, "home.html", context)
+
+
+def create_room(request):
+    new_room_name = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom)).get_new_room_name()
+    print(new_room_name)
+    return redirect("chat_room", room_name=new_room_name)
 
 
 def room(request, room_name):

@@ -27,3 +27,6 @@ class ChatRoomRepositoryImpl(chat_room_repository_i.ChatRoomRepositoryI):
 
     def get_rooms(self):
         return self.chat_room_model.objects.all()
+
+    def count_all(self) -> int:
+        return self.chat_room_model.objects.count()

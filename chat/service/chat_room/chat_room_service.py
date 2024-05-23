@@ -6,6 +6,9 @@ class ChatRoomService:
     def __init__(self, chat_room_repo: ChatRoomRepositoryI):
         self.chat_room_repo = chat_room_repo
 
+    def get_new_room_name(self):
+        return "chat_" + str(self.chat_room_repo.count_all())
+
     def get_rooms(self):
         return self.chat_room_repo.get_rooms()
 
