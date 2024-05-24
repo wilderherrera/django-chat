@@ -47,9 +47,9 @@ class AuthTests(TestCase):
                                              "password1": "20532050aA",
                                              "password2": "20532050a",
                                          })
-        self.assertIn(response.status_code, [302, 401])
+        self.assertIn(response.status_code, [200, 401])
         user_name_found = User.objects.filter(username=new_username).count()
-        self.assertEqual(user_name_found, 1)
+        self.assertEqual(user_name_found, 0)
 
     def test_create_user(self):
         new_username = "new_username"
