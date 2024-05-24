@@ -3,6 +3,11 @@ name: Django Test with PostgreSQL
 on: [ push ]
 
 jobs:
+  env:
+    DB_NAME: mydatabase
+    DB_USER: postgres
+    DB_PASS: password
+    DB_HOST: localhost
   test:
     runs-on: ubuntu-latest
 
