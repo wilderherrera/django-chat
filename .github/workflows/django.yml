@@ -3,23 +3,23 @@ name: Django Test with PostgreSQL
 on: [ push ]
 
 jobs:
-  env:
-    DB_NAME: mydatabase
-    DB_USER: postgres
-    DB_PASS: password
-    DB_HOST: localhost
+
   test:
     runs-on: ubuntu-latest
-
+    env:
+      DB_NAME: mydatabase
+      DB_USER: postgres
+      DB_PASS: password
+      DB_HOST: localhost
     services:
       postgres:
         image: postgres:latest
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: mydatabase
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASS }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
 
     steps:
       - name: Checkout repository
