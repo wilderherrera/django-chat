@@ -9,18 +9,19 @@ class AuthTests(TestCase):
         self.http_client = Client()
 
     def test_login(self):
-        response = self.http_client.post("/auth/v1/login/", {"username": self.user.username, "password": user.password})
+        response = self.http_client.post("/auth/v1/login/",
+                                         {"username": self.user.username, "password": self.user.password})
         self.assertEqual(response.status_code, 200)
         self.http_client.force_login(self.user)
         response = self.http_client.get("/v1/home")
         self.assertEqual(response.status_code, 200)
 
     def test_logout(self):
-        http_client = Client()
-        user = User(username="user_test", password="12456789", email="user_test@tests.com")
-        response = http_client.post("/auth/v1/login/", {"username": user.username, "password": user.password})
+        response = self.http_client.post("/auth/v1/login/",
+                                         {"username": self.user.username, "password": self.user.password})
         self.assertEqual(response.status_code, 200)
-        response = http_client.post("/auth/v1/logout/", {})
+        self.http_client.force_login(self.user)
+        response = self.http_client.post("/auth/v1/logout/", {})
         self.assertEqual(response.status_code, 200)
-        response = http_client.get("/v1/home/", {})
+        response = self.http_client.get("/v1/home/", {})
         self.assertEqual(response.content, b"Live Chat Login.")
