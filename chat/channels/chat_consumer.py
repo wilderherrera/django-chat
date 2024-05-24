@@ -22,7 +22,6 @@ class ChatConsumer(AsyncWebsocketConsumer, Throttle):
             await self.send({"close": True})
             logging.warning("User no authorized attempt to use the socket")
         else:
-            print(self.channel_name)
             try:
                 await self.channel_layer.group_add(
                     self.roomGroupName,
