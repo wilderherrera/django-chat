@@ -29,9 +29,19 @@
                         <input name="password" type="password"
                                class="block w-full mt-1.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                     </div>
-                    <input class="cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 mt-2 px-4 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                           type="submit" value="login">
-                    <input type="hidden" name="next" value="{{ next }}">
+                    <div class="flex w-full  justify-center items-center">
+                        <div class="w-1/2 px-5">
+                            <input class="cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 mt-2 px-4 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                   type="submit" value="login">
+                            <input type="hidden" name="next" value="{{ next }}">
+                        </div>
+                        <div class="w-1/2 px-5">
+                            <a href="{% url 'create_user' %}"
+                               class="cursor-pointer flex w-full
+                                justify-center rounded-md bg-green-600 mt-2 px-4 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >Sign up</a>
+                        </div>
+                    </div>
                 </div>
             </form>
             <div class="flex justify-center mt-2">

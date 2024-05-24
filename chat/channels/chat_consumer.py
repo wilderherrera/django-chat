@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -8,10 +9,10 @@ from chat.service.chat.chat_service import ChatService
 from chat.service.chat_room.chat_room_service import ChatRoomService
 from chat.models import ChatRoom
 from chat.repository.chat_room.chat_room_repository_impl import ChatRoomRepositoryImpl
-from datetime import datetime
+from chat.channels.throttle import Throttle
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class ChatConsumer(AsyncWebsocketConsumer, Throttle):
     logger = logging.getLogger(__name__)
 
     async def connect(self):
@@ -43,12 +44,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data):
-        logging.warning("Here")
         text_data_json = json.loads(text_data)
         user = self.scope['user']
         text_data_json["username"] = user.username
         text_data_json["email"] = user.email
         message = text_data_json["message"]
+        is_allowed = await self.check_message_limit(user.id)
+        if not is_allowed:
+            await self.send(text_data=json.dumps({
+                'message': 'Rate limit exceeded. Please wait before sending more messages.',
+                "created_at": text_data_json["created_at"]
+            }))
+            logging.warning("Rate limit exceeded. User:" + str(user.id) + " Please wait before sending more messages.")
+            return
+
         await ChatService(ChatRepositoryRedisImpl()).create_message(text_data_json, user.id, self.roomGroupName)
         await self.channel_layer.group_send(
             self.roomGroupName, {

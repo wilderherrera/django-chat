@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-)o6ynk9)rdvt+r10=v6$_(&!4k$fhwf=zyratx%is#2v%4j@!q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SOCKET_THROTTLE = {"window": 60, "limit": 10}  # Throttle in minutes 10 API calls per minute
+
 ALLOWED_HOSTS = []
 
 LOGGING = {
@@ -122,6 +124,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "chatRealTime.middleware.log_middleware.SyncMiddleware"
 
 ]
 

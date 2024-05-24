@@ -1,10 +1,8 @@
 from django.db import models
-
-from chat.utils.paginator_filter import PaginatorFilter
 from django.contrib.auth.models import User
 
 
-class ChatRoom(models.Model, PaginatorFilter):
+class ChatRoom(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(255, unique=True)
     users = models.ManyToManyField(User)
@@ -13,7 +11,7 @@ class ChatRoom(models.Model, PaginatorFilter):
         db_table = "chat_rooms"
 
 
-class Chat(models.Model, PaginatorFilter):
+class Chat(models.Model):
     id = models.BigAutoField(primary_key=True)
     content = models.TextField()
     chat_room = models.ForeignKey(ChatRoom, on_delete=models.PROTECT)
