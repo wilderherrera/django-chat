@@ -16,9 +16,13 @@ class ChatConsumer(AsyncWebsocketConsumer, Throttle):
     logger = logging.getLogger(__name__)
 
     async def connect(self):
-        self.roomGroupName = self.scope["url_route"]["kwargs"]["room_name"]
+        try:
+            self.roomGroupName = self.scope["url_route"]["kwargs"]["room_name"]
+        except TimeoutError:
+            logging.warning("set room group process failed")
+            return
         user = self.scope['user']
-        if user.is_authenticated == False:
+        if user.is_anonymous:
             await self.send({"close": True})
             logging.warning("User no authorized attempt to use the socket")
         else:
@@ -31,9 +35,12 @@ class ChatConsumer(AsyncWebsocketConsumer, Throttle):
                 self.logger.critical("Error creating channel layer..." + str(error))
                 await self.send({"close": True})
                 return
-            chat_room_service = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom))
-            chat_room_created = await chat_room_service.create_chat_room(self.roomGroupName)
-            await chat_room_service.add_user_to_chat_room(chat_room_created, user)
+            try:
+                chat_room_service = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom))
+                chat_room_created = await chat_room_service.create_chat_room(self.roomGroupName)
+                await chat_room_service.add_user_to_chat_room(chat_room_created, user)
+            except Exception as error:
+                self.logger.critical("Error creating channel layer..." + str(error))
             await self.accept()
 
     async def disconnect(self, close_code):

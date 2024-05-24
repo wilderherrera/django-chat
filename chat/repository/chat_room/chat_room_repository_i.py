@@ -1,7 +1,9 @@
 from chat.models import ChatRoom
+from channels.db import database_sync_to_async
 
 
 class ChatRoomRepositoryI:
+    @database_sync_to_async
     def create(self, name) -> ChatRoom:
         pass
 

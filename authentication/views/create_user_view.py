@@ -17,6 +17,7 @@ class UserCreator(View):
             user.email = form.data["email"]
             user.save()
             raw_password = form.cleaned_data.get('password1')
+            print("User created -> ", str(user))
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             return redirect('home')

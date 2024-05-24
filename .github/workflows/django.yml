@@ -40,3 +40,9 @@ jobs:
 
       - name: Run tests
         run: python manage.py test authentication.tests
+        
+      - name: Run tests
+        run: python manage.py test chat.tests
+
+
+

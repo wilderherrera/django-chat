@@ -15,7 +15,6 @@ def index(request):
 
 def create_room(request):
     new_room_name = ChatRoomService(ChatRoomRepositoryImpl(ChatRoom)).get_new_room_name()
-    print(new_room_name)
     return redirect("chat_room", room_name=new_room_name)
 
 

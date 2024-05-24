@@ -25,3 +25,54 @@ class AuthTests(TestCase):
         self.assertIn(response.status_code, [302, 401])
         response = self.http_client.get("/v1/home", {})
         self.assertIn(response.status_code, [302, 401])
+
+    def test_create_user_invalid_form(self):
+        new_username = "new_username"
+        new_email = "nw@test.com"
+        response_get = self.http_client.get("/auth/v1/sign_up")
+        self.assertEqual(response_get.status_code, 200)
+        self.http_client.post("/auth/v1/sign_up",
+                              {"username": new_username,
+                               "password": self.user.password
+                               })
+
+        user_name_found = User.objects.filter(username=new_username).count()
+        self.assertEqual(user_name_found, 0)
+        response = self.http_client.post("/auth/v1/sign_up",
+                                         {
+                                             "email": new_email,
+                                             "username": new_username,
+                                             "first_name": "First name test",
+                                             "last_name": "Last name test",
+                                             "password1": "20532050aA",
+                                             "password2": "20532050a",
+                                         })
+        self.assertIn(response.status_code, [302, 401])
+        user_name_found = User.objects.filter(username=new_username).count()
+        self.assertEqual(user_name_found, 1)
+
+    def test_create_user(self):
+        new_username = "new_username"
+        new_email = "nw@test.com"
+        response_get = self.http_client.get("/auth/v1/sign_up")
+        self.assertEqual(response_get.status_code, 200)
+        self.http_client.post("/auth/v1/sign_up",
+                              {"username": new_username,
+                               "password": self.user.password
+                               })
+
+        user_name_found = User.objects.filter(username=new_username).count()
+        self.assertEqual(user_name_found, 0)
+        response = self.http_client.post("/auth/v1/sign_up",
+                                         {
+                                             "email": new_email,
+                                             "username": new_username,
+                                             "first_name": "First name test",
+                                             "last_name": "Last name test",
+                                             "password1": "20532050aA",
+                                             "password2": "20532050aA",
+                                         })
+
+        self.assertIn(response.status_code, [302, 401])
+        user_name_found = User.objects.filter(username=new_username).count()
+        self.assertEqual(user_name_found, 1)
