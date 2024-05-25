@@ -11,4 +11,4 @@ class TestChat(TestCase):
 
     def test_home_view_auth(self):
         response = self.http_client.get("/v1/home")
-        self.assertIn(response.status_code, [302, 40
+        self.assertIn(response.status_code, [302, 401])
