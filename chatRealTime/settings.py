@@ -27,7 +27,7 @@ DEBUG = True
 
 SOCKET_THROTTLE = {"window": 60, "limit": 10}  # Throttle in minutes 10 API calls per minute
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*", "54.225.132.16"]
 
 LOGGING = {
     "version": 1,
