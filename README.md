@@ -9,6 +9,7 @@ This project is a Django application integrated with Tailwind CSS for styling. I
 
 - Python 3.x
 - Node.js and npm
+- Redis
 - PostgreSQL (or another supported database)
 
 ### Clone the Repository
