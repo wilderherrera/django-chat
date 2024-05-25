@@ -81,7 +81,7 @@ That's it! You've now installed and set up Tailwind CSS with your Django project
  ```
 ### Run Application
  ```bash
-    python runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8000
  ```
 
 ## Test deployed applications 
