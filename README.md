@@ -139,11 +139,13 @@ This is depicted with a different background color. When the user refreshes the 
 
 The application was developed using Django Channels, which allows for asynchronous communication and the socket implementation required for this project. To support this functionality, an ASGI server was enabled and Redis was configured as a cache manager. All messages, along with the system to retrieve messages after a web page refresh, are managed using Redis to ensure quick and efficient data retrieval.
 
-For user management, the built-in Django authentication system was utilized, providing robust and secure user authentication and authorization. The front-end of the application was developed using Django templates, ensuring seamless integration with Django's backend and facilitating dynamic content rendering.
+For user management, the built-in Django authentication system was utilized, providing robust and secure user authentication and authorization. PostgreSQL was used to manage user authentication data and chat room data, ensuring reliable and persistent storage of critical information.
+
+The front-end of the application was developed using Django templates, ensuring seamless integration with Django's backend and facilitating dynamic content rendering.
 
 A comprehensive logging system was created and formatted using the settings.py file, enabling effective monitoring and debugging of the application. All requests are logged by a custom middleware, capturing details of each API call and other critical events, which helps in maintaining the application's reliability and security.
 
-As a challenge point, throttling was implemented on the socket server to establish a limit on requests, preventing abuse and ensuring fair usage.Automated testing were managed using GitHub Actions, with a django.yml configuration file located in the .github/workflows directory.
+As a challenge point, throttling was implemented on the socket server to establish a limit on requests, preventing abuse and ensuring fair usage. Automated testing was managed using GitHub Actions, with a django.yml configuration file located in the .github/workflows directory.
 
 System testing was thoroughly conducted using Django's TestCase and Channels testing frameworks, ensuring the application's functionality and performance under various conditions.
 
