@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)o6ynk9)rdvt+r10=v6$_(&!4k$fhwf=zyratx%is#2v%4j@!q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 SOCKET_THROTTLE = {"window": 60, "limit": 10}  # Throttle in minutes 10 API calls per minute
 
