@@ -123,9 +123,32 @@ both creating or using an existing chat room after click on it you will be in th
 ![image](https://github.com/wilderherrera/django-chat/assets/42052737/15399090-a87d-4603-8f91-b7c007906d88)
 
 When you send a message all people in the chat room will receive it, for example in this image another user send a message over the chat room
+
+### Wilder Chat
+
 ![image](https://github.com/wilderherrera/django-chat/assets/42052737/bc24c248-26dd-4068-980f-8c0d3201490a)
 
+### Katherine chat (On mobile device, responsive design is enabled by tailwind css)
+
+
+![image](https://github.com/wilderherrera/django-chat/assets/42052737/9d866b06-6fb8-48d2-9bc5-f4a64371f644)
+
 This is depicted with a different background color. When the user refreshes the web page, all messages in the conversation will be retrieved and displayed in the view.
+
+## Technical Explanation
+
+The application was developed using Django Channels, which allows for asynchronous communication and the socket implementation required for this project. To support this functionality, an ASGI server was enabled and Redis was configured as a cache manager. All messages, along with the system to retrieve messages after a web page refresh, are managed using Redis to ensure quick and efficient data retrieval.
+
+For user management, the built-in Django authentication system was utilized, providing robust and secure user authentication and authorization. The front-end of the application was developed using Django templates, ensuring seamless integration with Django's backend and facilitating dynamic content rendering.
+
+A comprehensive logging system was created and formatted using the settings.py file, enabling effective monitoring and debugging of the application. All requests are logged by a custom middleware, capturing details of each API call and other critical events, which helps in maintaining the application's reliability and security.
+
+As a challenge point, throttling was implemented on the socket server to establish a limit on requests, preventing abuse and ensuring fair usage.Automated testing were managed using GitHub Actions, with a django.yml configuration file located in the .github/workflows directory.
+
+System testing was thoroughly conducted using Django's TestCase and Channels testing frameworks, ensuring the application's functionality and performance under various conditions.
+
+Finally, the application was deployed on an AWS instance to provide internet access, ensuring scalability and accessibility for users.
+
 
 
 
