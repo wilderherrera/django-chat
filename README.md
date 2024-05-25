@@ -99,6 +99,15 @@ In this configuration it could be set a limit per minute of request that the ser
 
 ![image](https://github.com/wilderherrera/django-chat/assets/42052737/7c3cfec3-7850-4959-be9d-3880c0f5d017)
 
+The code of limit configuration could be found in:
+
+ ```bash
+chat.channels.throttle.py
+ ```
+
+![image](https://github.com/wilderherrera/django-chat/assets/42052737/fe588e9e-396b-4d02-a743-dadeff0d36c3)
+
+
 # How to use the app
 ## Test deployed applications 
 When you start the application you have to login as a first step, you can use this credentials:
